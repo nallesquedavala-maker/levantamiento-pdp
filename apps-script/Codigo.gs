@@ -11,7 +11,7 @@
 // Carpeta principal en Drive.
 // Si CARPETA_ID está vacío, el script crea (o reutiliza) en tu Drive
 // una carpeta llamada CARPETA_NOMBRE. Para usar otra carpeta, pega su ID aquí.
-var CARPETA_ID = '';
+var CARPETA_ID = '17WGkKWTylZHZeC8gLbSNRwTaaZPCtjq9';
 var CARPETA_NOMBRE = 'Levantamiento PDP';
 
 /* Un renglón por apartado del formulario.
