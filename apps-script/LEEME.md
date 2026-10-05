@@ -1,17 +1,40 @@
-# Conectar el formulario con Google Sheets
+# Conectar el formulario con las carpetas de Drive
 
-1. Abre la carpeta de Drive donde se guardan los documentos y, dentro de ella,
-   crea un Google Sheet nuevo (**Nuevo → Hojas de cálculo de Google**),
-   por ejemplo "Levantamiento PDP – Respuestas".
-2. En el Sheet abre **Extensiones → Apps Script**.
-3. Borra lo que aparece y pega todo el contenido de `Codigo.gs`. Guarda.
-4. Haz clic en **Implementar → Nueva implementación**.
+Cada apartado del formulario se guarda en su propia carpeta, dentro de la
+carpeta principal definida en `CARPETA_ID`:
+
+| Apartado del formulario | Carpeta | Qué se guarda |
+|---|---|---|
+| 2. Aviso de Privacidad | Aviso de privacidad | Una fila por envío |
+| 3. Bases de datos | Bases de datos | Una fila por cada base |
+| 4. Accesos | Accesos | Una fila por cada acceso |
+| 5. Medidas de seguridad | Medidas de seguridad | Una fila por envío |
+| 6. Consentimiento y ARCO | Consentimiento y derechos ARCO | Una fila por envío |
+| 7. Terceros | Terceros | Una fila por cada tercero |
+| 8. Incidentes y conservación | Incidentes y conservación | Una fila por envío |
+
+En cada carpeta se crea una hoja de cálculo "<Apartado> – Respuestas" la primera
+vez que llega un envío. Todas tienen la columna **ID envío** para relacionar las
+respuestas de una misma persona.
+
+Si la carpeta ya existe, el script la reconoce por palabras clave de su nombre,
+aunque tenga número al inicio (por ejemplo "03 Bases de datos"). Si no la
+encuentra, la crea. Para forzar una carpeta concreta, pega su ID en el campo
+`id` de ese apartado dentro de `APARTADOS`.
+
+## Pasos
+
+1. Entra a script.google.com y haz clic en **Nuevo proyecto**.
+2. Borra lo que aparece, pega todo `Codigo.gs` y guarda.
+3. En el menú de funciones elige **probarCarpetas** y haz clic en **Ejecutar**.
+   Autoriza los permisos. Si aparece "Google no verificó esta app", entra en
+   **Configuración avanzada → Ir a … (no seguro)**. Es tu propio script.
+4. Abre el **Registro de ejecución** y revisa que cada apartado apunte a la carpeta correcta.
+5. Haz clic en **Implementar → Nueva implementación**.
    - Tipo: **Aplicación web**.
    - Ejecutar como: **Yo**.
    - Quién tiene acceso: **Cualquier usuario**.
-5. Autoriza los permisos que pide Google. Si aparece "Google no verificó esta app",
-   entra en **Configuración avanzada → Ir a … (no seguro)**. Es tu propio script.
-6. Copia la **URL de la aplicación web**. Termina en `/exec`.
+6. Copia la **URL de la aplicación web**, que termina en `/exec`.
 7. En `index.html` pega la URL en esta línea y sube el cambio:
 
    ```js
@@ -20,19 +43,3 @@
 
 Si cambias `Codigo.gs` después, ve a **Implementar → Administrar implementaciones →
 Editar → Versión: Nueva versión**. Así la URL sigue siendo la misma.
-
-## Qué hojas se crean
-
-| Hoja | Contenido |
-|---|---|
-| Respuestas | Una fila por envío con datos generales, aviso, seguridad, consentimiento e incidentes |
-| Bases de datos | Una fila por cada base registrada |
-| Accesos | Una fila por cada acceso |
-| Terceros | Una fila por cada tercero |
-| JSON | El envío completo como respaldo y el enlace a su archivo en Drive |
-
-Cada envío también se guarda como archivo `.json` en la carpeta de Drive
-definida en `CARPETA_ID`, al inicio de `Codigo.gs`. Para usar otra carpeta,
-cambia ese valor por el ID que aparece en su enlace después de `/folders/`.
-
-Todas tienen la columna **ID envío** para relacionar las filas de un mismo envío.

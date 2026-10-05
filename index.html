@@ -425,7 +425,7 @@ input.miss,select.miss,textarea.miss{border-color:var(--warn);background:var(--w
   <div class="sum" id="sum"></div>
   <div class="box ok">
     <h4><span data-ic="enviar"></span>¿Cómo nos lo hacen llegar?</h4>
-    <p>Al presionar <strong>Enviar respuestas</strong>, la información llega directo a su asesor. Si el envío falla, se descarga un archivo a su computadora: <strong>súbanlo a la carpeta 02 de la carpeta compartida, o envíenlo por el grupo de WhatsApp.</strong></p>
+    <p>Al presionar <strong>Enviar respuestas</strong>, la información de cada apartado llega directo a su asesor. Si el envío falla, se descarga un archivo a su computadora: <strong>súbanlo a la carpeta 02 de la carpeta compartida, o envíenlo por el grupo de WhatsApp.</strong></p>
   </div>
   <div class="box warn" id="bloqAviso" style="display:none">
     <h4><span data-ic="alerta"></span><span class="txt"></span></h4>
@@ -995,30 +995,31 @@ function descarga(p){
  document.body.appendChild(a); a.click();
  setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove()},400);
 }
-/* Convierte las respuestas en tablas con encabezados legibles para el Sheet */
+/* Separa las respuestas por apartado: cada uno se guarda en su carpeta de Drive */
 function paraSheet(p){
  const id=Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,6).toUpperCase();
  const fecha=new Date().toLocaleString('es-MX',{timeZone:'America/Mexico_City'});
+ const base=()=>({'ID envío':id,'Fecha':fecha,'Llenado por':D.autor||'','Correo':D.correo||''});
  const tabla=objs=>{
   const headers=[]; objs.forEach(o=>Object.keys(o).forEach(h=>{ if(headers.indexOf(h)<0) headers.push(h); }));
   return {headers, rows:objs.map(o=>headers.map(h=>o[h]==null?'':String(o[h])))};
  };
- const gen={'ID envío':id,'Fecha':fecha,'Llenado por':D.autor||'','Correo':D.correo||'',
-  'Campos sugeridos sin responder':p.camposPendientes};
- ['av','seg','cons','inc'].forEach(t=>FICHA[t].g.forEach(g=>g.f.forEach(f=>{
-  let h=f.l; if(h in gen) h=`${f.l} (${g.t})`;
-  gen[h]=D[t][f.k]||'';
- })));
- const rep=t=>D[t].filter(r=>Object.values(r).some(v=>v)).map((r,n)=>{
-  const o={'ID envío':id,'Fecha':fecha,'Llenado por':D.autor||'','#':n+1};
+ const ficha=t=>{
+  const o=base();
+  FICHA[t].g.forEach(g=>g.f.forEach(f=>{
+   let h=f.l; if(h in o) h=`${f.l} (${g.t})`;
+   o[h]=D[t][f.k]||'';
+  }));
+  return tabla([o]);
+ };
+ const rep=t=>tabla(D[t].filter(r=>Object.values(r).some(v=>v)).map((r,n)=>{
+  const o=Object.assign(base(),{'#':n+1});
   REP[t].f.forEach(f=>{ o[f.l]=r[f.k]||''; });
   return o;
- });
- return {id, fecha, json:JSON.stringify(p), hojas:{
-  'Respuestas':tabla([gen]),
-  'Bases de datos':tabla(rep('base')),
-  'Accesos':tabla(rep('acc')),
-  'Terceros':tabla(rep('ter'))
+ }));
+ return {id, fecha, apartados:{
+  av:ficha('av'), base:rep('base'), acc:rep('acc'), seg:ficha('seg'),
+  cons:ficha('cons'), ter:rep('ter'), inc:ficha('inc')
  }};
 }
 function bloqueados(){
