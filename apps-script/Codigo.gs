@@ -94,7 +94,7 @@ function carpetaDelApartado(clave) {
 }
 
 function normaliza(t) {
-  return String(t).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  return String(t).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
 /* Agrega filas acomodando cada valor bajo su encabezado.
