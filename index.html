@@ -425,7 +425,7 @@ input.miss,select.miss,textarea.miss{border-color:var(--warn);background:var(--w
   <div class="sum" id="sum"></div>
   <div class="box ok">
     <h4><span data-ic="enviar"></span>¿Cómo nos lo hacen llegar?</h4>
-    <p>Al presionar el botón se descarga un archivo a su computadora. <strong>Súbanlo a la carpeta 02 de la carpeta compartida, o envíenlo por el grupo de WhatsApp.</strong> No necesitan abrirlo: es un archivo para su asesor.</p>
+    <p>Al presionar <strong>Enviar respuestas</strong>, la información llega directo a su asesor. Si el envío falla, se descarga un archivo a su computadora: <strong>súbanlo a la carpeta 02 de la carpeta compartida, o envíenlo por el grupo de WhatsApp.</strong></p>
   </div>
   <div class="box warn" id="bloqAviso" style="display:none">
     <h4><span data-ic="alerta"></span><span class="txt"></span></h4>
@@ -437,7 +437,8 @@ input.miss,select.miss,textarea.miss{border-color:var(--warn);background:var(--w
     <button class="btn" id="rev" style="margin-top:.9rem">Revisar y corregir redacción</button>
   </div>
   <div style="display:flex;gap:1rem;flex-wrap:wrap">
-    <button class="btn p big" id="dl">Descargar respuestas</button>
+    <button class="btn p big" id="dl">Enviar respuestas</button>
+    <button class="btn big" id="copia">Descargar copia</button>
     <button class="btn big" id="pr">Imprimir o guardar en PDF</button>
   </div>
   <div class="nav"><button class="btn" data-go="7">← Atrás</button><span></span></div>
@@ -450,6 +451,9 @@ input.miss,select.miss,textarea.miss{border-color:var(--warn);background:var(--w
 (function(){
 'use strict';
 const K='dx_levant_v3';
+/* URL de la aplicación web de Google Apps Script (ver apps-script/LEEME.md).
+   Si está vacía, el botón solo descarga el archivo. */
+const SHEET_URL='';
 const SN=['Sí','No','No sé'];
 
 /* ══ Esquemas repetibles ══ */
@@ -972,28 +976,8 @@ function resumen(){
   `<div class="sum-row"><span class="k">${x[0]}</span><span class="v ${x[2]}">${esc(x[1])}</span></div>`).join('');
 }
 
-document.getElementById('dl').addEventListener('click',()=>{
- lee();
-
- /* Los bloqueantes sí detienen la descarga */
- const v=revisar();
- if(v.bloq.length){
-  const caja=document.getElementById('bloqAviso');
-  const f=v.bloq[0];
-  caja.style.display='block';
-  caja.querySelector('h4 span.txt').textContent =
-   v.bloq.length===1 ? 'Falta un dato para poder redactar el Aviso'
-                     : `Faltan ${v.bloq.length} datos para poder redactar el Aviso`;
-  caja.querySelector('p').innerHTML =
-   `Sin estos campos no es posible redactar el Aviso de Privacidad, que es la entrega del 9 de octubre. `+
-   `El primero que falta es <strong>${esc(f.l)}</strong>.`+
-   (v.bloq.length>1 ? `<br><br>Pendientes: ${v.bloq.map(x=>esc(x.l)).join(' · ')}` : '');
-  caja.scrollIntoView({behavior:'smooth',block:'center'});
-  irAFaltante(f);
-  return;
- }
-
- const p={proyecto:'COT-2026-DT-001',empresa:'DX TLAQUEPAQUE SA DE CV',
+function paquete(){
+ return {proyecto:'COT-2026-DT-001',empresa:'DX TLAQUEPAQUE SA DE CV',
   documento:'Levantamiento de protección de datos personales',
   version:3, generado:new Date().toISOString(),
   llenadoPor:D.autor, correo:D.correo,
@@ -1001,6 +985,8 @@ document.getElementById('dl').addEventListener('click',()=>{
   basesDeDatos:D.base, accesos:D.acc, terceros:D.ter,
   medidasSeguridad:D.seg, consentimientoYArco:D.cons, incidentesYConservacion:D.inc,
   camposPendientes:faltan()};
+}
+function descarga(p){
  const f=new Date(), z=x=>String(x).padStart(2,'0');
  const b=new Blob([JSON.stringify(p,null,2)],{type:'application/json'});
  const a=document.createElement('a');
@@ -1008,9 +994,82 @@ document.getElementById('dl').addEventListener('click',()=>{
  a.download=`Levantamiento_DX_${f.getFullYear()}-${z(f.getMonth()+1)}-${z(f.getDate())}.json`;
  document.body.appendChild(a); a.click();
  setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove()},400);
- const btn=document.getElementById('dl'), tx=btn.textContent;
- btn.textContent='✓ Descargado — ahora envíenlo a su asesor';
- setTimeout(()=>{btn.textContent=tx},4200);
+}
+/* Convierte las respuestas en tablas con encabezados legibles para el Sheet */
+function paraSheet(p){
+ const id=Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,6).toUpperCase();
+ const fecha=new Date().toLocaleString('es-MX',{timeZone:'America/Mexico_City'});
+ const tabla=objs=>{
+  const headers=[]; objs.forEach(o=>Object.keys(o).forEach(h=>{ if(headers.indexOf(h)<0) headers.push(h); }));
+  return {headers, rows:objs.map(o=>headers.map(h=>o[h]==null?'':String(o[h])))};
+ };
+ const gen={'ID envío':id,'Fecha':fecha,'Llenado por':D.autor||'','Correo':D.correo||'',
+  'Campos sugeridos sin responder':p.camposPendientes};
+ ['av','seg','cons','inc'].forEach(t=>FICHA[t].g.forEach(g=>g.f.forEach(f=>{
+  let h=f.l; if(h in gen) h=`${f.l} (${g.t})`;
+  gen[h]=D[t][f.k]||'';
+ })));
+ const rep=t=>D[t].filter(r=>Object.values(r).some(v=>v)).map((r,n)=>{
+  const o={'ID envío':id,'Fecha':fecha,'Llenado por':D.autor||'','#':n+1};
+  REP[t].f.forEach(f=>{ o[f.l]=r[f.k]||''; });
+  return o;
+ });
+ return {id, fecha, json:JSON.stringify(p), hojas:{
+  'Respuestas':tabla([gen]),
+  'Bases de datos':tabla(rep('base')),
+  'Accesos':tabla(rep('acc')),
+  'Terceros':tabla(rep('ter'))
+ }};
+}
+function bloqueados(){
+ const v=revisar();
+ if(!v.bloq.length) return false;
+ const caja=document.getElementById('bloqAviso');
+ const f=v.bloq[0];
+ caja.style.display='block';
+ caja.querySelector('h4 span.txt').textContent =
+  v.bloq.length===1 ? 'Falta un dato para poder redactar el Aviso'
+                    : `Faltan ${v.bloq.length} datos para poder redactar el Aviso`;
+ caja.querySelector('p').innerHTML =
+  `Sin estos campos no es posible redactar el Aviso de Privacidad, que es la entrega del 9 de octubre. `+
+  `El primero que falta es <strong>${esc(f.l)}</strong>.`+
+  (v.bloq.length>1 ? `<br><br>Pendientes: ${v.bloq.map(x=>esc(x.l)).join(' · ')}` : '');
+ caja.scrollIntoView({behavior:'smooth',block:'center'});
+ irAFaltante(f);
+ return true;
+}
+function avisaBoton(btn,txt){
+ const tx=btn.dataset.tx||btn.textContent; btn.dataset.tx=tx;
+ btn.textContent=txt;
+ setTimeout(()=>{btn.textContent=tx; btn.disabled=false;},5000);
+}
+
+/* Los bloqueantes sí detienen el envío */
+document.getElementById('dl').addEventListener('click',()=>{
+ lee();
+ if(bloqueados()) return;
+ const p=paquete(), btn=document.getElementById('dl');
+ if(!SHEET_URL){
+  descarga(p);
+  avisaBoton(btn,'✓ Descargado — ahora envíenlo a su asesor');
+  return;
+ }
+ btn.disabled=true; btn.textContent='Enviando…';
+ fetch(SHEET_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+  body:JSON.stringify(paraSheet(p))})
+  .then(r=>r.json())
+  .then(j=>{
+   if(!j.ok) throw new Error(j.error||'Error');
+   avisaBoton(btn,'✓ Enviado — gracias');
+  })
+  .catch(()=>{
+   descarga(p);
+   avisaBoton(btn,'No se pudo enviar: se descargó el archivo, envíenlo a su asesor');
+  });
+});
+document.getElementById('copia').addEventListener('click',()=>{
+ lee();
+ descarga(paquete());
 });
 /* Revisión global de redacción sobre todos los datos guardados */
 document.getElementById('rev').addEventListener('click',()=>{
