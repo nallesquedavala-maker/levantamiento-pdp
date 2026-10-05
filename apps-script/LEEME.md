@@ -1,7 +1,7 @@
 # Conectar el formulario con las carpetas de Drive
 
 Cada apartado del formulario se guarda en su propia carpeta, dentro de la
-carpeta principal definida en `CARPETA_ID`:
+carpeta principal. Si `CARPETA_ID` está vacío, el script crea en tu Drive una carpeta "Levantamiento PDP":
 
 | Apartado del formulario | Carpeta | Qué se guarda |
 |---|---|---|

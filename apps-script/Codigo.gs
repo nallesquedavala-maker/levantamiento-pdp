@@ -8,8 +8,11 @@
  * las respuestas de una misma persona.
  */
 
-// Carpeta principal compartida en Drive.
-var CARPETA_ID = '1Z0isaHtyFkbfMhgyDhITb-NJF8Umh3C_';
+// Carpeta principal en Drive.
+// Si CARPETA_ID está vacío, el script crea (o reutiliza) en tu Drive
+// una carpeta llamada CARPETA_NOMBRE. Para usar otra carpeta, pega su ID aquí.
+var CARPETA_ID = '';
+var CARPETA_NOMBRE = 'Levantamiento PDP';
 
 /* Un renglón por apartado del formulario.
  * carpeta → nombre con el que se crea la carpeta si no existe.
@@ -81,7 +84,7 @@ function carpetaDelApartado(clave) {
   var cfg = APARTADOS[clave];
   if (cfg.id) return DriveApp.getFolderById(cfg.id);
 
-  var principal = DriveApp.getFolderById(CARPETA_ID);
+  var principal = carpetaPrincipal();
   var hijas = principal.getFolders();
   while (hijas.hasNext()) {
     var c = hijas.next();
@@ -91,6 +94,27 @@ function carpetaDelApartado(clave) {
     }
   }
   return principal.createFolder(cfg.carpeta);
+}
+
+/* Usa CARPETA_ID si tiene valor. Si no, busca o crea CARPETA_NOMBRE
+   en la raíz de tu Drive y recuerda su ID. */
+function carpetaPrincipal() {
+  if (CARPETA_ID) return DriveApp.getFolderById(CARPETA_ID);
+
+  var props = PropertiesService.getScriptProperties();
+  var guardada = props.getProperty('carpeta_principal');
+  if (guardada) {
+    try {
+      var f = DriveApp.getFolderById(guardada);
+      if (!f.isTrashed()) return f;
+    } catch (err) { /* se borró: se vuelve a crear */ }
+  }
+
+  var raiz = DriveApp.getRootFolder();
+  var existentes = raiz.getFoldersByName(CARPETA_NOMBRE);
+  var carpeta = existentes.hasNext() ? existentes.next() : raiz.createFolder(CARPETA_NOMBRE);
+  props.setProperty('carpeta_principal', carpeta.getId());
+  return carpeta;
 }
 
 function normaliza(t) {
@@ -128,6 +152,8 @@ function respuesta(obj) {
 /* Ejecútala una vez desde el editor para autorizar permisos y
    ver en el registro qué carpeta se usará para cada apartado. */
 function probarCarpetas() {
+  var principal = carpetaPrincipal();
+  Logger.log('Carpeta principal: ' + principal.getName() + '  (' + principal.getUrl() + ')');
   Object.keys(APARTADOS).forEach(function (clave) {
     var c = carpetaDelApartado(clave);
     Logger.log(APARTADOS[clave].carpeta + '  →  ' + c.getName() + '  (' + c.getUrl() + ')');
