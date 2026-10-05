@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Levantamiento de Protección de Datos · DX TLAQUEPAQUE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0A3348;--navy-d:#062535;--cyan:#2E8CB8;--cyan-l:#4AACD1;
+  --ice:#EAF3F8;--paper:#F4F8FA;--white:#fff;
+  --ink:#08222F;--mid:#4A6D7E;--soft:#8AA3B0;
+  --ok:#1A7A4F;--ok-bg:#E8F6EF;--warn:#B8541F;--warn-bg:#FDF2E7;
+  --ln:#DCE6EC;
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Inter','Helvetica Neue',system-ui,sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);
+  line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:12vh}
+
+header{background:var(--navy);color:#fff;padding:3.2rem 5vw 2.4rem}
+.hw{max-width:1120px;margin:0 auto}
+header .kick{font-size:.6rem;font-weight:700;letter-spacing:4px;
+  text-transform:uppercase;color:var(--cyan-l);margin-bottom:.8rem}
+header h1{font-family:var(--serif);font-size:2.2rem;font-weight:400;
+  line-height:1.1;margin-bottom:.9rem}
+header p{font-size:.92rem;color:rgba(255,255,255,.62);max-width:62ch}
+header .meta{display:flex;flex-wrap:wrap;gap:2.2rem;margin-top:1.8rem;
+  padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.12)}
+header .meta div{font-size:.78rem;color:rgba(255,255,255,.75)}
+header .meta b{display:block;font-size:.55rem;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:.25rem}
+
+#steps{position:sticky;top:0;z-index:50;background:rgba(244,248,250,.96);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--ln)}
+.sw{max-width:1120px;margin:0 auto;display:flex;gap:.2rem;
+  padding:0 5vw;overflow-x:auto;scrollbar-width:thin}
+.sbtn{flex:0 0 auto;background:none;border:none;cursor:pointer;
+  padding:1rem .85rem;font-family:var(--sans);font-size:.7rem;font-weight:600;
+  color:var(--soft);border-bottom:2px solid transparent;
+  transition:color .3s,border-color .3s;display:flex;align-items:center;
+  justify-content:center;gap:.45rem;white-space:nowrap}
+.sbtn:hover{color:var(--mid)}
+.sbtn.on{color:var(--navy);border-bottom-color:var(--cyan)}
+.sbtn em{font-style:normal;width:18px;height:18px;border-radius:50%;
+  background:var(--ln);color:var(--soft);font-size:.58rem;font-weight:700;
+  display:grid;place-items:center;flex-shrink:0;transition:all .3s}
+.sbtn.on em{background:var(--cyan);color:#fff}
+.sbtn.done em{background:var(--ok);color:#fff;font-size:.6rem}
+.sbtn.urg em{background:var(--warn);color:#fff}
+.sbtn.urg.on em{background:var(--cyan)}
+.sbtn.urg.done em{background:var(--ok)}
+
+main{max-width:1120px;margin:0 auto;padding:3rem 5vw}
+.step{display:none}
+.step.on{display:block;animation:fade .5s var(--ease)}
+@keyframes fade{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+
+/* ══ Iconografía monolínea ══ */
+.ic{flex-shrink:0;stroke:currentColor;fill:none;stroke-width:1.6;
+  stroke-linecap:round;stroke-linejoin:round}
+
+/* Icono grande del título de sección */
+.sh .ic-head{width:46px;height:46px;border-radius:12px;
+  background:var(--navy);color:var(--cyan-l);
+  display:grid;place-items:center;flex-shrink:0}
+.sh .ic-head .ic{width:24px;height:24px;stroke-width:1.5}
+.sh .row{display:flex;align-items:center;gap:1.1rem;margin-bottom:.5rem}
+
+/* Icono en los avisos */
+.box h4 .ic{width:16px;height:16px;stroke-width:1.7}
+.box h4{display:flex;align-items:center;gap:.55rem}
+
+/* Icono en los bloques de ficha */
+.blk-h h3 .ic{width:17px;height:17px;stroke-width:1.6;opacity:.85}
+.blk-h h3{display:flex;align-items:center;gap:.6rem}
+
+/* Icono en la cabecera de cada tarjeta repetible */
+.card-h .ic{width:15px;height:15px;color:var(--cyan);stroke-width:1.7}
+
+.sh{margin-bottom:2rem;padding-bottom:1.2rem;border-bottom:1px solid var(--ln)}
+.sh h2{font-family:var(--serif);font-size:1.6rem;font-weight:400;margin-bottom:.5rem}
+.sh p{font-size:.86rem;color:var(--mid);max-width:70ch}
+.sh .who{display:inline-block;margin-top:.9rem;font-size:.6rem;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;padding:.35rem .9rem;
+  border-radius:100px;background:var(--ice);color:var(--cyan)}
+
+.card{background:var(--white);border:1px solid var(--ln);border-radius:12px;
+  margin-bottom:1.1rem;overflow:hidden;transition:border-color .3s,box-shadow .3s}
+.card:focus-within{border-color:var(--cyan-l);box-shadow:0 2px 14px rgba(46,140,184,.1)}
+.card-h{display:flex;align-items:center;gap:.9rem;padding:.9rem 1.3rem;
+  background:var(--ice);border-bottom:1px solid var(--ln)}
+.card-h .ix{font-family:var(--serif);font-size:1rem;color:var(--cyan);min-width:1.6rem}
+.card-h .nm{font-size:.84rem;font-weight:600;color:var(--navy);flex:1}
+.card-h .tag{font-size:.54rem;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;padding:.22rem .65rem;border-radius:100px;
+  background:var(--navy);color:var(--cyan-l)}
+.del{background:none;border:none;cursor:pointer;color:var(--soft);
+  font-size:1.05rem;line-height:1;padding:.25rem .45rem;border-radius:5px;
+  transition:color .25s,background .25s}
+.del:hover{color:var(--warn);background:var(--warn-bg)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1rem;padding:1.4rem}
+
+/* Bloques de ficha */
+.blk{background:var(--white);border:1px solid var(--ln);border-radius:12px;
+  margin-bottom:1.3rem;overflow:hidden}
+.blk-h{padding:1.1rem 1.4rem;background:var(--navy);color:#fff}
+.blk-h h3{font-size:.88rem;font-weight:600;margin-bottom:.25rem}
+.blk-h p{font-size:.72rem;color:rgba(255,255,255,.55);line-height:1.55}
+
+.f{display:flex;flex-direction:column;gap:.4rem}
+.f.c3{grid-column:span 3}.f.c4{grid-column:span 4}.f.c5{grid-column:span 5}
+.f.c6{grid-column:span 6}.f.c7{grid-column:span 7}.f.c8{grid-column:span 8}
+.f.c12{grid-column:span 12}
+.f label{font-size:.72rem;font-weight:600;color:var(--mid);
+  display:flex;align-items:center;gap:.4rem;line-height:1.45}
+.f label .req{color:var(--soft);font-size:.9rem;line-height:0}
+/* Punto sólido: sin este dato no se puede redactar el Aviso */
+.f label .req.bloq{color:var(--warn);font-size:1.05rem;cursor:help}
+.f .hint{font-size:.64rem;color:var(--soft);font-style:italic;line-height:1.45}
+input,select,textarea{font-family:var(--sans);font-size:.82rem;color:var(--ink);
+  padding:.62rem .8rem;border:1px solid var(--ln);border-radius:7px;
+  background:var(--white);width:100%;transition:border-color .25s,box-shadow .25s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--cyan);
+  box-shadow:0 0 0 3px rgba(46,140,184,.11)}
+textarea{resize:vertical;min-height:62px;line-height:1.5}
+select{cursor:pointer;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%238AA3B0' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right .8rem center;padding-right:2.1rem}
+input.miss,select.miss,textarea.miss{border-color:var(--warn);background:var(--warn-bg)}
+
+.opts{display:flex;gap:.4rem;flex-wrap:wrap}
+.opts label{flex:1;min-width:72px;cursor:pointer;margin:0}
+.opts input{position:absolute;opacity:0;width:0;height:0}
+.opts span{display:block;text-align:center;padding:.58rem .4rem;
+  border:1px solid var(--ln);border-radius:7px;font-size:.74rem;
+  font-weight:500;color:var(--mid);background:var(--white);transition:all .25s}
+.opts label:hover span{border-color:var(--cyan-l)}
+.opts input:checked + span{background:var(--navy);border-color:var(--navy);
+  color:#fff;font-weight:600}
+.opts input:checked + span.si{background:var(--ok);border-color:var(--ok)}
+.opts input:checked + span.no{background:var(--warn);border-color:var(--warn)}
+.opts input:checked + span.ns{background:var(--soft);border-color:var(--soft)}
+
+.add{width:100%;padding:1rem;border:1.5px dashed var(--ln);border-radius:11px;
+  background:none;cursor:pointer;font-family:var(--sans);font-size:.78rem;
+  font-weight:600;color:var(--cyan);transition:all .3s}
+.add:hover{border-color:var(--cyan);background:var(--ice)}
+
+.box{padding:1.3rem 1.5rem;border-radius:10px;margin-bottom:1.6rem;
+  border-left:3px solid var(--cyan);background:var(--ice)}
+.box h4{font-size:.78rem;font-weight:700;color:var(--navy);margin-bottom:.45rem}
+.box p{font-size:.78rem;color:var(--mid);line-height:1.62}
+.box.warn{border-left-color:var(--warn);background:var(--warn-bg)}
+.box.warn h4{color:var(--warn)}
+.box.ok{border-left-color:var(--ok);background:var(--ok-bg)}
+.box.ok h4{color:var(--ok)}
+
+.nav{display:flex;justify-content:space-between;gap:1rem;margin-top:2.4rem;
+  padding-top:1.8rem;border-top:1px solid var(--ln)}
+.btn{padding:.85rem 1.9rem;border-radius:8px;border:1px solid var(--ln);
+  background:var(--white);cursor:pointer;font-family:var(--sans);
+  font-size:.76rem;font-weight:600;color:var(--mid);transition:all .3s var(--ease)}
+.btn:hover{border-color:var(--cyan);color:var(--navy)}
+.btn.p{background:var(--navy);border-color:var(--navy);color:#fff}
+.btn.p:hover{background:var(--cyan);border-color:var(--cyan)}
+.btn.big{padding:1.1rem 2.6rem;font-size:.85rem}
+
+.sum{background:var(--white);border:1px solid var(--ln);border-radius:12px;
+  padding:1.8rem;margin-bottom:1.6rem}
+.sum-row{display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:.85rem 0;border-bottom:1px solid var(--ln);font-size:.84rem}
+.sum-row:last-child{border-bottom:none}
+.sum-row .k{color:var(--mid)}
+.sum-row .v{font-weight:600;color:var(--navy);text-align:right;white-space:nowrap}
+.sum-row .v.bad{color:var(--warn)}
+.sum-row .v.good{color:var(--ok)}
+
+#save{position:fixed;bottom:1.6rem;right:1.6rem;z-index:60;
+  padding:.65rem 1.2rem;border-radius:100px;background:var(--navy);color:#fff;
+  font-size:.66rem;font-weight:600;letter-spacing:1px;
+  display:flex;align-items:center;gap:.55rem;
+  box-shadow:0 4px 18px rgba(10,51,72,.22);
+  opacity:0;transform:translateY(12px);transition:all .4s var(--ease)}
+#save.on{opacity:1;transform:none}
+#save i{width:6px;height:6px;border-radius:50%;background:#4ADE80;
+  box-shadow:0 0 7px #4ADE80}
+
+@media(max-width:820px){
+  header{padding:2.4rem 6vw 1.8rem}
+  header h1{font-size:1.6rem}
+  main{padding:2rem 6vw}
+  .f.c3,.f.c4,.f.c5,.f.c6,.f.c7,.f.c8{grid-column:span 12}
+  .grid{padding:1.1rem;gap:.9rem}
+  .nav{flex-direction:column-reverse}
+  .btn{width:100%}
+}
+@media print{
+  #steps,#save,.nav,.add,.del{display:none!important}
+  .step{display:block!important;page-break-after:always}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hw">
+    <div class="kick">COT-2026-DT-001 · Protección de Datos Personales</div>
+    <h1>Levantamiento de Protección de Datos Personales</h1>
+    <p>Este formulario reúne todo lo que la ley exige documentar: qué datos existen, cómo se protegen, cómo se obtiene el consentimiento del paciente y hacia dónde salen. Ustedes conocen la operación; nosotros asumimos la redacción y la responsabilidad jurídica del documento final.</p>
+    <div class="meta">
+      <div><b>Empresa</b>DX TLAQUEPAQUE SA DE CV</div>
+      <div><b>Fecha límite</b>Lunes 12 de octubre de 2026</div>
+      <div><b>Tiempo estimado</b>60 a 90 minutos</div>
+      <div><b>Se guarda solo</b>Pueden cerrar y retomar</div>
+    </div>
+  </div>
+</header>
+
+<div id="steps"><div class="sw">
+  <button class="sbtn on" data-s="0"><em>1</em>Antes de empezar</button>
+  <button class="sbtn urg" data-s="1"><em>2</em>Aviso de Privacidad</button>
+  <button class="sbtn" data-s="2"><em>3</em>Bases de datos</button>
+  <button class="sbtn" data-s="3"><em>4</em>Accesos</button>
+  <button class="sbtn" data-s="4"><em>5</em>Medidas de seguridad</button>
+  <button class="sbtn" data-s="5"><em>6</em>Consentimiento y ARCO</button>
+  <button class="sbtn" data-s="6"><em>7</em>Terceros</button>
+  <button class="sbtn" data-s="7"><em>8</em>Incidentes y conservación</button>
+  <button class="sbtn" data-s="8"><em>9</em>Enviar</button>
+</div></div>
+
+<main>
+
+<!-- 0 ── ANTES DE EMPEZAR ── -->
+<section class="step on" data-s="0">
+  <div class="sh">
+    <div class="row"><span class="ic-head" data-ic="info"></span><h2>Antes de empezar</h2></div>
+    <p>Lean esto una vez. Les va a ahorrar tiempo y nos evita ida y vuelta.</p>
+  </div>
+  <div class="box">
+    <h4><span data-ic="tarjeta"></span>¿Qué cuenta como dato personal?</h4>
+    <p>Cualquier información que permita identificar a una persona: nombre, teléfono, correo, domicilio, RFC, CURP, fecha de nacimiento, número de expediente. No importa si está en un sistema, en un Excel o en papel.</p>
+  </div>
+  <div class="box warn">
+    <h4><span data-ic="pulso"></span>¿Qué cuenta como dato sensible?</h4>
+    <p>Todo dato de salud — diagnósticos, resultados de laboratorio, estudios de imagen, historial clínico — más huella digital y reconocimiento facial. Son la categoría de máxima protección de la ley mexicana. Para tratarlos se exige <strong>consentimiento expreso y por escrito</strong> del paciente. Por eso hay una sección completa dedicada al tema.</p>
+  </div>
+  <div class="box">
+    <h4><span data-ic="duda"></span>Si no saben un dato</h4>
+    <p>Escriban o marquen <strong>«No sé»</strong> en lugar de dejarlo vacío. No es un problema: es información útil. Un campo vacío no nos dice si el dato no aplica o si nadie en la empresa lo sabe, y esa diferencia es justo lo que necesitamos detectar.</p>
+  </div>
+  <div class="box">
+    <h4><span data-ic="mano"></span>Nadie espera que todo esté en orden</h4>
+    <p>Este levantamiento sirve para saber dónde están los huecos, no para evaluar a nadie. Responder "No" o "Nunca" a algo es exactamente lo que necesitamos leer para proponer la solución correcta. Una respuesta maquillada nos hace redactar un documento que no corresponde a la realidad — y ese documento, ante una revisión, se vuelve evidencia en contra.</p>
+  </div>
+  <div class="box">
+    <h4><span data-ic="equipo"></span>¿Quién llena cada sección?</h4>
+    <p><strong>Bases de datos, Accesos y Medidas de seguridad</strong> — Tecnologías de la Información.<br>
+       <strong>Consentimiento y ARCO</strong> — Dirección Médica o quien atienda pacientes.<br>
+       <strong>Terceros</strong> — Administración.<br>
+       <strong>Incidentes y conservación</strong> — Tecnologías de la Información y Dirección.<br><br>
+       Pueden repartirse el trabajo: el avance se guarda en este equipo. Si lo llenan desde computadoras distintas, cada quien descarga su parte al terminar y nos mandan los archivos.</p>
+  </div>
+  <div class="grid" style="padding:0;margin-top:1.8rem">
+    <div class="f c6">
+      <label>¿Quién está llenando este formulario? <span class="req">●</span></label>
+      <input type="text" id="autor" placeholder="Nombre y puesto">
+    </div>
+    <div class="f c6">
+      <label>Correo de contacto, por si tenemos dudas</label>
+      <input type="email" id="correo" placeholder="correo@empresa.com">
+    </div>
+  </div>
+  <div class="nav"><span></span><button class="btn p" data-go="2">Comenzar →</button></div>
+</section>
+
+<!-- 1 ── AVISO DE PRIVACIDAD ── -->
+<section class="step" data-s="1">
+  <div class="sh">
+    <div class="row"><span class="ic-head" data-ic="docseg"></span><h2>Datos para el Aviso de Privacidad</h2></div>
+    <p>Esta es la sección que detiene la entrega del 9 de octubre. Son datos que no están en ningún archivero: son decisiones que debe tomar la Dirección.</p>
+    <span class="who">Dirección General</span>
+  </div>
+  <div class="box warn">
+    <h4><span data-ic="reloj"></span>Prioridad del proyecto</h4>
+    <p>El Aviso de Privacidad vigente sigue a nombre de la persona física. Cada paciente que se registra hoy en cualquiera de las once sucursales recibe información sobre un responsable que legalmente ya no lo es. Con esta sección completa, redactamos y entregamos en cinco días hábiles.</p>
+  </div>
+  <div id="cav"></div>
+  <div class="nav">
+    <button class="btn" data-go="0">← Atrás</button>
+    <button class="btn p" data-go="2">Siguiente: Bases de datos →</button>
+  </div>
+</section>
+
+<!-- 2 ── BASES ── -->
+<section class="step" data-s="2">
+  <div class="sh">
+    <div class="row"><span class="ic-head" data-ic="datos"></span><h2>Bases de datos</h2></div>
+    <p>Un bloque por cada lugar donde se guardan datos de personas. Precargamos las cinco que identificamos en el diagnóstico; si existe alguna más, agréguenla al final.</p>
+    <span class="who">Tecnologías de la Información</span>
+  </div>
+  <div class="box">
+    <h4><span data-ic="lupa"></span>Incluyan también lo que no parece una base de datos</h4>
+    <p>Un Excel en la computadora de alguien, un cuaderno de registro en recepción, un grupo de WhatsApp donde se mandan resultados, una carpeta de correos. Si ahí hay nombres de personas, cuenta.</p>
+  </div>
+  <div id="cbase"></div>
+  <button class="add" data-add="base">+ Agregar otra base de datos</button>
+  <div class="nav">
+    <button class="btn" data-go="0">← Atrás</button>
+    <button class="btn p" data-go="3">Siguiente: Accesos →</button>
+  </div>
+</section>
+
+<!-- 2 ── ACCESOS ── -->
+<section class="step" data-s="3">
+  <div class="sh">
+    <div class="row"><span class="ic-head" data-ic="llave"></span><h2>¿Quién accede a cada sistema?</h2></div>
+    <p>Un bloque por cada combinación de sistema y puesto. No hace falta nombrar personas: basta el rol y cuántas personas lo ocupan.</p>
+    <span class="who">Tecnologías de la Información</span>
+  </div>
+  <div class="box">
+    <h4><span data-ic="llave"></span>¿Por qué preguntamos si se revoca el acceso al dar de baja?</h4>
+    <p>Es la falla más común que encontramos y la más fácil de corregir. Un usuario activo de alguien que ya no trabaja en la empresa es un hallazgo directo en cualquier revisión. Si no están seguros, marquen "No sé".</p>
+  </div>
+  <div id="cacc"></div>
+  <button class="add" data-add="acc">+ Agregar otro acceso</button>
+  <div class="nav">
+    <button class="btn" data-go="2">← Atrás</button>
+    <button class="btn p" data-go="4">Siguiente: Medidas de seguridad →</button>
+  </div>
+</section>
+
+<!-- 3 ── MEDIDAS DE SEGURIDAD ── -->
+<section class="step" data-s="4">
+  <div class="sh">
+    <div class="row"><span class="ic-head" data-ic="escudo"></span><h2>Medidas de seguridad</h2></div>
+    <p>La ley exige documentar las medidas administrativas, físicas y técnicas que protegen los datos. Esta sección es el cuerpo del Documento de Seguridad.</p>
+    <span class="who">Tecnologías de la Información</span>
+  </div>
+  <div class="box warn">
+    <h4><span data-ic="ojo"></span>Respondan lo que hay, no lo que debería haber</h4>
+    <p>El Documento de Seguridad describe las medidas <strong>realmente implementadas</strong>. Si decimos que existe algo que no existe, ese documento se convierte en prueba de una declaración falsa ante la autoridad. Es mucho mejor un documento honesto con un plan de mejora que uno perfecto que no se sostiene.</p>
+  </div>
+  <div id="cseg"></div>
+  <div class="nav">
+    <button class="btn" data-go="3">← Atrás</button>
+    <button class="btn p" data-go="5">Siguiente: Consentimiento →</button>
+  </div>
+</section>
+
+<!-- 4 ── CONSENTIMIENTO Y ARCO ── -->
+<section class="step" data-s="5">
+  <div class="sh">
+    <div class="row"><span class="ic-head" data-ic="firma"></span><h2>Consentimiento del paciente y derechos ARCO</h2></div>
+    <p>Cómo se obtiene la autorización del paciente para tratar sus datos de salud, y cómo se atiende hoy a quien pide ver, corregir o eliminar su información.</p>
+    <span class="who">Dirección Médica y atención a pacientes</span>
+  </div>
+  <div class="box warn">
+    <h4><span data-ic="firma"></span>El punto más delicado de todo el levantamiento</h4>
+    <p>La ley exige <strong>consentimiento expreso y por escrito</strong> para tratar datos de salud. No basta el consentimiento verbal, ni el implícito por el hecho de que el paciente acuda. En la práctica casi ningún laboratorio lo tiene resuelto del todo — por eso preguntamos con detalle, no para señalar a nadie.</p>
+  </div>
+  <div id="ccons"></div>
+  <div class="nav">
+    <button class="btn" data-go="4">← Atrás</button>
+    <button class="btn p" data-go="6">Siguiente: Terceros →</button>
+  </div>
+</section>
+
+<!-- 5 ── TERCEROS ── -->
+<section class="step" data-s="6">
+  <div class="sh">
+    <div class="row"><span class="ic-head" data-ic="red"></span><h2>Terceros que reciben datos</h2></div>
+    <p>Laboratorios externos, aseguradoras, plataformas en nube, mensajería de resultados, despachos contables, proveedores de sistemas. Cualquier persona o empresa fuera de la organización que vea datos de pacientes o de personal.</p>
+    <span class="who">Administración</span>
+  </div>
+  <div class="box warn">
+    <h4><span data-ic="globo"></span>Importa mucho si están fuera de México</h4>
+    <p>Si un proveedor —sobre todo una plataforma en nube— aloja la información en el extranjero, se trata de una <strong>transferencia internacional</strong> y el régimen legal es distinto: no basta un contrato común. Si no saben dónde están los servidores, márquenlo y lo averiguamos nosotros.</p>
+  </div>
+  <div id="cter"></div>
+  <button class="add" data-add="ter">+ Agregar otro tercero</button>
+  <div class="nav">
+    <button class="btn" data-go="5">← Atrás</button>
+    <button class="btn p" data-go="7">Siguiente: Incidentes →</button>
+  </div>
+</section>
+
+<!-- 6 ── INCIDENTES Y CONSERVACIÓN ── -->
+<section class="step" data-s="7">
+  <div class="sh">
+    <div class="row"><span class="ic-head" data-ic="alerta"></span><h2>Incidentes, conservación y supresión</h2></div>
+    <p>Qué ha pasado, qué se hace si pasa, y qué ocurre con la información cuando ya no se necesita.</p>
+    <span class="who">Tecnologías de la Información y Dirección</span>
+  </div>
+  <div class="box">
+    <h4><span data-ic="alerta"></span>Sobre los incidentes</h4>
+    <p>La ley obliga a informar al paciente cuando ocurre una vulneración que afecte sus derechos. Preguntamos por incidentes pasados para saber si hay algo pendiente de atender, no para abrir un expediente. Una laptop extraviada, un correo enviado al destinatario equivocado o un equipo con virus cuentan como incidentes.</p>
+  </div>
+  <div id="cinc"></div>
+  <div class="nav">
+    <button class="btn" data-go="6">← Atrás</button>
+    <button class="btn p" data-go="8">Siguiente: Enviar →</button>
+  </div>
+</section>
+
+<!-- 7 ── ENVIAR ── -->
+<section class="step" data-s="8">
+  <div class="sh">
+    <div class="row"><span class="ic-head" data-ic="enviar"></span><h2>Revisar y enviar</h2></div>
+    <p>Revisen el resumen antes de enviar.</p>
+    <p style="margin-top:.7rem;font-size:.8rem">
+      <span style="color:var(--warn);font-size:1.05rem">●</span>
+      <strong>Punto naranja</strong> — sin ese dato no podemos redactar el Aviso de Privacidad. Son nueve y sí detienen el envío.
+      <br>
+      <span style="color:var(--soft);font-size:.9rem">●</span>
+      <strong>Punto gris</strong> — nos ayuda, pero pueden enviarlo sin responder. Si no saben algo, prefieren marcar <em>«No sé»</em> a inventarlo.
+    </p>
+  </div>
+  <div class="sum" id="sum"></div>
+  <div class="box ok">
+    <h4><span data-ic="enviar"></span>¿Cómo nos lo hacen llegar?</h4>
+    <p>Al presionar el botón se descarga un archivo a su computadora. <strong>Súbanlo a la carpeta 02 de la carpeta compartida, o envíenlo por el grupo de WhatsApp.</strong> No necesitan abrirlo: es un archivo para su asesor.</p>
+  </div>
+  <div class="box warn" id="bloqAviso" style="display:none">
+    <h4><span data-ic="alerta"></span><span class="txt"></span></h4>
+    <p></p>
+  </div>
+  <div class="box" id="boxRev">
+    <h4><span data-ic="lapiz"></span>Revisión de redacción</h4>
+    <p>Antes de enviar podemos repasar todo el texto que escribieron y corregir puntuación, espacios, mayúsculas y siglas. No se toca la ortografía ni el contenido: solo el formato.</p>
+    <button class="btn" id="rev" style="margin-top:.9rem">Revisar y corregir redacción</button>
+  </div>
+  <div style="display:flex;gap:1rem;flex-wrap:wrap">
+    <button class="btn p big" id="dl">Descargar respuestas</button>
+    <button class="btn big" id="pr">Imprimir o guardar en PDF</button>
+  </div>
+  <div class="nav"><button class="btn" data-go="7">← Atrás</button><span></span></div>
+</section>
+
+</main>
+<div id="save"><i></i><span>Guardado</span></div>
+
+<script>
+(function(){
+'use strict';
+const K='dx_levant_v3';
+const SN=['Sí','No','No sé'];
+
+/* ══ Esquemas repetibles ══ */
+const REP={
+ base:{cont:'cbase',tag:'Base de datos',ic:'datos',nm:'nombre',f:[
+  {k:'clave',l:'Clave',c:3,hint:'Si es nueva, déjenla en blanco'},
+  {k:'nombre',l:'Nombre de la base',c:5,req:1,hint:'Como la llaman internamente'},
+  {k:'area',l:'Área responsable',c:4,req:1},
+  {k:'sistema',l:'Sistema o programa donde vive',c:6,req:1,
+   hint:'Nombre del software, o "Excel", o "Carpetas en papel"'},
+  {k:'donde',l:'¿Dónde está alojada?',c:6,req:1,t:'sel',
+   o:['Servidor en la oficina','Servicio en nube','Computadora de escritorio',
+      'Archivo en papel','Mixto: digital y papel','No sé']},
+  {k:'datos',l:'¿Qué datos contiene?',c:12,req:1,t:'ta',
+   hint:'Enumeren los campos: nombre, teléfono, diagnóstico, resultados…'},
+  {k:'sens',l:'¿Contiene datos de salud o biométricos?',c:6,req:1,t:'opt',o:SN},
+  {k:'menores',l:'¿Incluye datos de menores de edad?',c:6,req:1,t:'opt',o:SN},
+  {k:'fin',l:'¿Para qué se usa?',c:6,req:1,t:'ta',hint:'La finalidad real del tratamiento'},
+  {k:'cuantos',l:'¿Cuántas personas, aproximadamente?',c:3,hint:'Un orden de magnitud basta'},
+  {k:'conserva',l:'¿Cuánto tiempo se conserva?',c:3,hint:'Ej: 5 años, indefinido, no sé'},
+  {k:'acceso',l:'¿Quién tiene acceso?',c:6,t:'ta'},
+  {k:'resp',l:'Respaldos: ¿cada cuándo y dónde?',c:6,t:'ta'},
+  {k:'tercero',l:'¿Esta información sale a terceros?',c:6,req:1,t:'opt',o:SN},
+  {k:'obs',l:'Observaciones',c:6,t:'ta'}
+ ]},
+ acc:{cont:'cacc',tag:'Acceso',ic:'llave',nm:'puesto',f:[
+  {k:'sistema',l:'Sistema o base',c:4,req:1},
+  {k:'puesto',l:'Puesto o rol',c:4,req:1,hint:'El cargo, no el nombre de la persona'},
+  {k:'area',l:'Área',c:4},
+  {k:'num',l:'¿Cuántas personas?',c:3},
+  {k:'nivel',l:'Nivel de acceso',c:4,req:1,t:'sel',
+   o:['Solo consulta','Captura y consulta','Administrador','Acceso total','No sé']},
+  {k:'indiv',l:'¿Cada persona tiene su propio usuario?',c:5,req:1,t:'opt',o:SN},
+  {k:'revoca',l:'¿Se revoca el acceso al dar de baja a alguien?',c:6,req:1,t:'opt',o:SN},
+  {k:'obs',l:'Observaciones',c:6,t:'ta'}
+ ]},
+ ter:{cont:'cter',tag:'Tercero',ic:'red',nm:'nombre',f:[
+  {k:'nombre',l:'Nombre del proveedor o tercero',c:6,req:1},
+  {k:'servicio',l:'¿Qué servicio presta?',c:6,req:1},
+  {k:'datos',l:'¿Qué datos de pacientes o personal recibe?',c:12,req:1,t:'ta'},
+  {k:'pais',l:'¿Dónde está y dónde guarda la información?',c:6,req:1,t:'sel',
+   o:['En México','En el extranjero','No sé dónde están los servidores']},
+  {k:'cual',l:'Si está en el extranjero, ¿qué país?',c:6,
+   hint:'Si no saben, escriban "No sé"'},
+  {k:'via',l:'¿Cómo se los enviamos?',c:6,t:'sel',
+   o:['Correo electrónico','Portal o sistema del proveedor','Conexión entre sistemas',
+      'Mensajería o paquetería','Entrega física','WhatsApp','Otro','No sé']},
+  {k:'frec',l:'¿Con qué frecuencia?',c:6,t:'sel',
+   o:['Diario','Semanal','Mensual','Ocasional','Permanente: tienen acceso directo','No sé']},
+  {k:'contrato',l:'¿Hay contrato firmado con ellos?',c:6,req:1,t:'opt',o:SN},
+  {k:'clausula',l:'¿El contrato menciona protección de datos?',c:6,req:1,t:'opt',o:SN},
+  {k:'contacto',l:'Contacto del proveedor',c:6},
+  {k:'obs',l:'Observaciones',c:6,t:'ta'}
+ ]}
+};
+
+/* ══ Fichas de una sola instancia ══ */
+const FICHA={
+ av:{cont:'cav',g:[
+  {t:'Identificación del Responsable',ic:'edificio',d:'Lo que la ley llama "identidad y domicilio del responsable". Confirmen contra el acta constitutiva y la constancia fiscal.',f:[
+   {k:'v_razon',l:'Denominación social exacta, tal como aparece en el acta',c:12,req:1,bloq:1,
+    hint:'Copien la puntuación literal del instrumento notarial: comas y puntos incluidos'},
+   {k:'v_rfc',l:'RFC',c:4,req:1,bloq:1},
+   {k:'v_dom',l:'Domicilio fiscal completo',c:8,req:1,bloq:1,t:'ta',
+    hint:'Calle, número, colonia, municipio, estado y código postal'},
+   {k:'v_rep',l:'Representante legal: nombre completo',c:6,req:1,bloq:1},
+   {k:'v_giro',l:'Giro o actividad, en una frase',c:6,
+    hint:'Ej: laboratorio de análisis clínicos y estudios de diagnóstico'}
+  ]},
+  {t:'Las cuatro decisiones',ic:'lista',d:'Son los datos que el paciente usará para contactarlos. Deben sobrevivir a la rotación de personal: nada de correos o celulares personales.',f:[
+   {k:'v_correo',l:'Correo institucional para solicitudes ARCO',c:6,req:1,bloq:1,
+    hint:'Ej: datospersonales@ — no el correo de una persona'},
+   {k:'v_tel',l:'Teléfono de atención al titular',c:6,req:1,bloq:1,
+    hint:'Puede ser el conmutador con extensión'},
+   {k:'v_web',l:'Sitio web donde se publicará el aviso',c:6,req:1,bloq:1,
+    hint:'Si no tienen sitio, escriban "No tenemos"'},
+   {k:'v_resp',l:'Responsable Interno de Privacidad: nombre y cargo',c:6,req:1,bloq:1,
+    hint:'Puede ser el representante legal de forma provisional'},
+   {k:'v_domarco',l:'¿El domicilio para solicitudes ARCO es el fiscal, u otro?',c:12,t:'ta',
+    hint:'Si reciben solicitudes en una sucursal distinta, indíquenlo'}
+  ]},
+  {t:'Finalidades del tratamiento',ic:'diana',d:'Las razones por las que tratan los datos. La ley distingue las finalidades necesarias para prestar el servicio de aquellas que requieren una autorización por separado.',f:[
+   {k:'v_fin1',l:'Finalidades necesarias para prestar el servicio',c:12,req:1,bloq:1,t:'ta',
+    hint:'Ej: identificar al paciente, realizar estudios, entregar resultados, facturar, integrar el expediente clínico. Enumérenlas todas.'},
+   {k:'v_fin2',l:'Finalidades adicionales que NO son necesarias para el servicio',c:12,t:'ta',
+    hint:'Ej: enviar promociones, recordatorios de estudios, encuestas de satisfacción, estudios estadísticos. Si no hacen ninguna, escriban "Ninguna".'},
+   {k:'v_datos',l:'¿Qué datos se le piden al paciente?',c:12,req:1,t:'ta',
+    hint:'Enumérenlos: nombre, fecha de nacimiento, domicilio, teléfono, correo, RFC, resultados, diagnósticos…'},
+   {k:'v_terceros',l:'¿Se comparten datos con alguien fuera de la empresa?',c:6,req:1,t:'opt',o:SN},
+   {k:'v_tercerosq',l:'Si sí, ¿con quién y para qué?',c:6,t:'ta'}
+  ]},
+  {t:'Publicación y vigencia',ic:'altavoz',d:'El lugar donde vivirá el aviso y la forma de comunicar sus cambios.',f:[
+   {k:'v_donde',l:'¿Dónde se publicará el aviso?',c:12,t:'ta',
+    hint:'Ej: cartel en recepción de las 11 sucursales, sitio web, correo al entregar resultados'},
+   {k:'v_cookies',l:'¿El sitio web usa cookies o registra visitantes?',c:6,t:'opt',o:['Sí','No','No tenemos sitio','No sé']},
+   {k:'v_cambios',l:'¿Cómo piensan avisar a los pacientes si el aviso cambia?',c:6,t:'sel',
+    o:['Publicándolo en el sitio web','Cartel en sucursales','Por correo electrónico',
+       'Todas las anteriores','No lo hemos definido']},
+   {k:'v_logo',l:'¿Tienen logotipo o manual de imagen para el documento?',c:6,t:'opt',o:SN},
+   {k:'v_obs',l:'Algo más que debamos considerar para el aviso',c:6,t:'ta'}
+  ]}
+ ]},
+ seg:{cont:'cseg',g:[
+  {t:'Seguridad física',ic:'candado',d:'El resguardo material de equipos, servidores y documentos en papel.',f:[
+   {k:'f_servidor',l:'¿El lugar donde están los servidores tiene acceso restringido?',c:6,req:1,t:'opt',o:SN},
+   {k:'f_papel',l:'¿Los expedientes en papel están bajo llave?',c:6,req:1,t:'opt',o:['Sí','No','No aplica','No sé']},
+   {k:'f_video',l:'¿Hay videovigilancia en las áreas donde se manejan datos?',c:6,t:'opt',o:SN},
+   {k:'f_bloqueo',l:'¿Las computadoras se bloquean cuando alguien se ausenta?',c:6,t:'opt',o:['Sí, automático','Sí, manual','No','No sé']},
+   {k:'f_destruye',l:'¿Cómo se destruyen los documentos con datos personales?',c:6,req:1,t:'sel',
+    o:['Trituradora en la empresa','Empresa especializada con certificado','Se tiran a la basura común',
+       'No se destruyen, se archivan siempre','No sé']},
+   {k:'f_visitas',l:'¿Se controla el ingreso de personas ajenas a las áreas con datos?',c:6,t:'opt',o:SN},
+   {k:'f_obs',l:'Comentarios sobre seguridad física',c:12,t:'ta'}
+  ]},
+  {t:'Seguridad técnica',ic:'servidor',d:'Contraseñas, respaldos, cifrado, red y registro de actividad.',f:[
+   {k:'t_pass',l:'¿Cada usuario tiene contraseña individual?',c:6,req:1,t:'opt',o:SN},
+   {k:'t_cambio',l:'¿Se obliga a cambiar la contraseña cada cierto tiempo?',c:6,t:'opt',o:SN},
+   {k:'t_anti',l:'¿Hay antivirus en todos los equipos?',c:6,req:1,t:'opt',o:['Sí, en todos','Solo en algunos','No','No sé']},
+   {k:'t_cifra',l:'¿La información está cifrada?',c:6,t:'sel',
+    o:['Sí, en los equipos y al enviarla','Solo al enviarla','Solo en los equipos','No','No sé']},
+   {k:'t_resp',l:'¿Hay respaldos automáticos?',c:6,req:1,t:'opt',o:SN},
+   {k:'t_respfrec',l:'Si hay respaldos, ¿cada cuándo y dónde se guardan?',c:6,
+    hint:'Ej: diario en disco externo y semanal en nube'},
+   {k:'t_prueba',l:'¿Se ha probado alguna vez que un respaldo sí se puede restaurar?',c:6,t:'opt',o:['Sí','No','Nunca','No sé']},
+   {k:'t_bitacora',l:'¿Queda registro de quién accede o modifica la información?',c:6,t:'opt',o:SN},
+   {k:'t_red',l:'¿Hay firewall o protección de red?',c:6,t:'opt',o:SN},
+   {k:'t_remoto',l:'¿Se puede entrar a los sistemas desde fuera de la oficina?',c:6,req:1,t:'opt',o:SN},
+   {k:'t_remotoc',l:'Si sí, ¿cómo y con qué control de acceso?',c:12,t:'ta',
+    hint:'Ej: VPN, escritorio remoto, acceso web con usuario y contraseña'},
+   {k:'t_usb',l:'¿Se permite copiar información a USB o discos externos?',c:6,t:'opt',o:SN},
+   {k:'t_obs',l:'Comentarios sobre seguridad técnica',c:6,t:'ta'}
+  ]},
+  {t:'Seguridad administrativa',ic:'tabla',d:'Políticas escritas, confidencialidad del personal y responsables designados.',f:[
+   {k:'a_politica',l:'¿Existe una política escrita de protección de datos?',c:6,req:1,t:'opt',o:SN},
+   {k:'a_confi',l:'¿El personal firma convenio de confidencialidad?',c:6,req:1,t:'opt',o:['Sí, todos','Solo algunos','No','No sé']},
+   {k:'a_capacita',l:'¿Se capacita al personal en el manejo de datos personales?',c:6,t:'opt',o:['Sí, periódicamente','Una sola vez','Nunca','No sé']},
+   {k:'a_resp',l:'¿Hay alguien designado como responsable de seguridad de la información?',c:6,req:1,t:'opt',o:SN},
+   {k:'a_respq',l:'Si lo hay, ¿quién? Indiquen puesto y nombre',c:6},
+   {k:'a_baja',l:'¿Qué se hace con los accesos cuando alguien renuncia o es dado de baja?',c:6,t:'ta'},
+   {k:'a_prov',l:'¿Se verifica la seguridad de los proveedores antes de contratarlos?',c:6,t:'opt',o:SN},
+   {k:'a_obs',l:'Comentarios sobre medidas administrativas',c:6,t:'ta'}
+  ]}
+ ]},
+
+ cons:{cont:'ccons',g:[
+  {t:'Consentimiento del paciente',ic:'firma',d:'La forma en que se obtiene hoy la autorización para tratar datos de salud.',f:[
+   {k:'c_como',l:'¿Cómo se obtiene el consentimiento del paciente?',c:6,req:1,t:'sel',
+    o:['Formato firmado por el paciente','Se le informa verbalmente','Está en el aviso de privacidad del mostrador',
+       'No se solicita de forma expresa','No sé']},
+   {k:'c_escrito',l:'¿Ese consentimiento es específico para datos de salud?',c:6,req:1,t:'opt',o:SN},
+   {k:'c_donde',l:'¿Dónde se guarda el consentimiento firmado?',c:6,t:'ta'},
+   {k:'c_cuando',l:'¿En qué momento se le pide al paciente?',c:6,t:'sel',
+    o:['Al registrarse por primera vez','Cada vez que acude','Solo para ciertos estudios','No se pide','No sé']},
+   {k:'c_copia',l:'¿Se le entrega copia del aviso de privacidad al paciente?',c:6,t:'opt',o:SN},
+   {k:'c_menores',l:'¿Atienden pacientes menores de edad?',c:6,req:1,t:'opt',o:SN},
+   {k:'c_menoresc',l:'Si sí, ¿cómo se obtiene el consentimiento del padre, madre o tutor?',c:12,t:'ta'},
+   {k:'c_mkt',l:'¿Se usan los datos para enviar promociones, recordatorios o publicidad?',c:6,req:1,t:'opt',o:SN},
+   {k:'c_mktc',l:'Si sí, ¿el paciente autorizó ese uso por separado?',c:6,t:'opt',o:SN}
+  ]},
+  {t:'Derechos ARCO',ic:'usuario',d:'Acceso, Rectificación, Cancelación y Oposición. Hay 20 días hábiles para responder.',f:[
+   {k:'r_han',l:'¿Han recibido solicitudes de pacientes para ver, corregir o eliminar sus datos?',c:6,req:1,t:'opt',o:SN},
+   {k:'r_cuantas',l:'Si sí, ¿cuántas aproximadamente en el último año?',c:6},
+   {k:'r_como',l:'¿Cómo las atendieron?',c:12,t:'ta'},
+   {k:'r_proc',l:'¿Existe un procedimiento escrito para atenderlas?',c:6,req:1,t:'opt',o:SN},
+   {k:'r_quien',l:'¿Quién las atiende hoy? Indiquen el puesto',c:6},
+   {k:'r_plazo',l:'¿Se lleva control del plazo de respuesta?',c:6,t:'opt',o:SN},
+   {k:'r_identidad',l:'¿Cómo verifican que quien pide los datos es realmente el paciente?',c:6,t:'ta'},
+   {k:'r_obs',l:'Comentarios',c:12,t:'ta'}
+  ]}
+ ]},
+
+ inc:{cont:'cinc',g:[
+  {t:'Incidentes de seguridad',ic:'alerta',d:'La empresa debe informar al titular cuando ocurre una vulneración que afecte sus derechos.',f:[
+   {k:'i_han',l:'¿Han tenido alguna pérdida, robo, filtración o acceso no autorizado?',c:6,req:1,t:'opt',o:SN},
+   {k:'i_cual',l:'Si sí, describan brevemente qué pasó y cuándo',c:12,t:'ta',
+    hint:'Incluye laptops extraviadas, correos mal enviados, equipos con virus, accesos indebidos'},
+   {k:'i_aviso',l:'¿Se le informó a los pacientes afectados?',c:6,t:'opt',o:['Sí','No','No aplicaba','No sé']},
+   {k:'i_proc',l:'¿Existe un procedimiento para actuar si ocurre?',c:6,req:1,t:'opt',o:SN},
+   {k:'i_quien',l:'¿A quién se le reporta un incidente hoy?',c:6},
+   {k:'i_autoridad',l:'¿Hay algún requerimiento o procedimiento abierto de alguna autoridad?',c:6,req:1,t:'opt',o:SN},
+   {k:'i_autoridadc',l:'Si sí, ¿de qué se trata?',c:12,t:'ta'}
+  ]},
+  {t:'Conservación y supresión',ic:'archivo',d:'El destino de la información cuando ya no se necesita. La norma oficial para expedientes clínicos exige conservarlos al menos cinco años.',f:[
+   {k:'s_criterio',l:'¿Cuánto tiempo se conservan los expedientes de pacientes?',c:6,req:1,t:'sel',
+    o:['Cinco años, como marca la norma','Más de cinco años','Indefinidamente','No hay criterio definido','No sé']},
+   {k:'s_inactivos',l:'¿Qué se hace con los expedientes de pacientes que ya no acuden?',c:6,t:'ta'},
+   {k:'s_borra',l:'¿Se eliminan datos alguna vez?',c:6,req:1,t:'opt',o:['Sí','No','Nunca','No sé']},
+   {k:'s_como',l:'Si se eliminan, ¿cómo y quién lo autoriza?',c:6,t:'ta'},
+   {k:'s_exemp',l:'¿Qué pasa con los expedientes del personal que ya no trabaja aquí?',c:12,t:'ta'},
+   {k:'s_obs',l:'Comentarios',c:12,t:'ta'}
+  ]}
+ ]}
+};
+
+const PRE=[
+ {clave:'BDCEP',nombre:'Expediente clínico electrónico'},
+ {clave:'BDBIO',nombre:'Base biométrica de pacientes'},
+ {clave:'BDRH', nombre:'Expedientes de personal'},
+ {clave:'BDCR', nombre:'Contactos y médicos referentes'},
+ {clave:'BDFC', nombre:'Facturación y datos fiscales'}
+];
+
+let D={autor:'',correo:'',base:[],acc:[],ter:[],av:{},seg:{},cons:{},inc:{}};
+
+function esc(s){return String(s==null?'':s)
+ .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* ══════════════════════════════════════════════════════════
+   ICONOGRAFÍA · trazos monolínea en caja de 24×24
+   ══════════════════════════════════════════════════════════ */
+const IC={
+ info:   'M12 2a10 10 0 100 20 10 10 0 000-20M12 11v6M12 7.5v.2',
+ docseg: 'M13 2H6a2 2 0 00-2 2v16a2 2 0 002 2h8M13 2v6h6M13 2l6 6M18 13l3.5 1.5v3c0 2.5-1.5 4-3.5 5-2-1-3.5-2.5-3.5-5v-3z',
+ datos:  'M12 2c4.4 0 8 1.3 8 3s-3.6 3-8 3-8-1.3-8-3 3.6-3 8-3M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3',
+ llave:  'M15.5 7.5a4.5 4.5 0 10-4.3 4.5L9 14.2V17H6.2L3 20.2V23h4l9-9a4.5 4.5 0 00-.5-6.5M16.5 7.5v.2',
+ escudo: 'M12 2l8 3.5v6c0 5-3.4 8.5-8 10.5-4.6-2-8-5.5-8-10.5v-6zM9 11.8l2.2 2.2L15.5 9.7',
+ firma:  'M3 18c2.5 0 3-4 4.5-4s1 4 2.5 4 2-7 3.5-7 1.5 7 3 7 2-3 4.5-3M3 21.5h18',
+ red:    'M12 4.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5M5 15a2.5 2.5 0 100 5 2.5 2.5 0 000-5M19 15a2.5 2.5 0 100 5 2.5 2.5 0 000-5M10.3 8.7L6.5 14.3M13.7 8.7l3.8 5.6M7.5 17.5h9',
+ alerta: 'M10.3 3.6L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L14.7 3.6a2 2 0 00-3.4 0M12 9v4.5M12 17.2v.2',
+ enviar: 'M12 20V5M5.5 11.5L12 5l6.5 6.5M4 21h16',
+ tarjeta:'M3 5h18v14H3zM3 10h18M7 14.5h4M15 14.5h2',
+ pulso:  'M3 12h4l2-6 3.5 12 2.5-8 1.5 3H21',
+ duda:   'M12 2a10 10 0 100 20 10 10 0 000-20M9.3 9.2a2.8 2.8 0 015.4 1c0 1.9-2.7 2.3-2.7 4M12 17.8v.2',
+ mano:   'M9 11V4.5a1.5 1.5 0 013 0V11M12 11V3.5a1.5 1.5 0 013 0V11M15 11V5.5a1.5 1.5 0 013 0V14c0 4-2.8 7-7 7s-7-3-7-7v-2.5a1.5 1.5 0 013 0V13',
+ equipo: 'M16 20v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2M9 10.5a3.5 3.5 0 100-7 3.5 3.5 0 000 7M22 20v-2a4 4 0 00-3-3.9M16 3.6a4 4 0 010 7.8',
+ reloj:  'M12 2a10 10 0 100 20 10 10 0 000-20M12 6.5V12l3.5 2',
+ lupa:   'M11 3a8 8 0 100 16 8 8 0 000-16M21 21l-4.4-4.4',
+ ojo:    'M1.5 12S5.5 5 12 5s10.5 7 10.5 7-4 7-10.5 7S1.5 12 1.5 12M12 9a3 3 0 100 6 3 3 0 000-6',
+ globo:  'M12 2a10 10 0 100 20 10 10 0 000-20M2 12h20M12 2a15 15 0 014 10 15 15 0 01-4 10 15 15 0 01-4-10 15 15 0 014-10',
+ lapiz:  'M16.5 2.5a2.1 2.1 0 013 3L7 18l-4 1 1-4zM14.5 4.5l3 3',
+ edificio:'M3 21h18M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2',
+ lista:  'M9 5h12M9 12h12M9 19h12M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2',
+ diana:  'M12 2a10 10 0 100 20 10 10 0 000-20M12 7a5 5 0 100 10 5 5 0 000-10M12 11.5v.2',
+ altavoz:'M3 10v4h3l5 4V6l-5 4zM16 9.5a3.5 3.5 0 010 5M19 6.5a7.5 7.5 0 010 11',
+ candado:'M5 11h14v10H5zM8 11V7a4 4 0 018 0v4M12 15v2',
+ servidor:'M3 4h18v6H3zM3 14h18v6H3zM6.5 7v.2M6.5 17v.2M10 7h7M10 17h7',
+ tabla:  'M8 3h8a1 1 0 011 1v1h2a1 1 0 011 1v14a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1h2V4a1 1 0 011-1M8 5h8M8 11h8M8 15h5',
+ usuario:'M19 20v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2M11 10.5a3.5 3.5 0 100-7 3.5 3.5 0 000 7M17 10l1.5 1.5L22 8',
+ archivo:'M3 4h18v4H3zM5 8v12h14V8M9.5 12h5'
+};
+function ico(n,cls){
+ const d=IC[n]; if(!d) return '';
+ return `<svg class="ic ${cls||''}" viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
+}
+
+/* ══════════════════════════════════════════════════════════
+   PULIDO DE TEXTO
+   Corrige puntuación y capitalización al salir de cada campo.
+   Deliberadamente conservador: no toca ortografía ni acentos,
+   porque una "corrección" equivocada en un documento legal es
+   peor que el error original.
+   ══════════════════════════════════════════════════════════ */
+const SIGLAS=['RFC','CURP','INE','CFDI','SAT','IMSS','ISSSTE','NOM','LFPDPPP','CP',
+  'ARCO','TI','RH','VPN','USB','PDF','ERP','CRM','LAN','WIFI','QR','ADN',
+  'COVID','VIH','PCR','SA DE CV','S.A. DE C.V.'];
+const CAMBIOS=[
+  /* consume el punto final de la abreviatura: si queda suelto,
+     la regla de espaciado lo lee como fin de oración */
+  [/\bs\.?\s*a\.?\s+de\s+c\.?\s*v\.?/gi,'SA de CV'],
+  [/\bdx\b/gi,'DX'],
+  /* abreviaturas de domicilio: muy frecuentes y siempre mal escritas */
+  [/\bav\.?\s/gi,'Av. '],
+  [/\bcol\.?\s/gi,'Col. '],
+  [/\bcalz\.?\s/gi,'Calz. '],
+  [/\bfracc\.?\s/gi,'Fracc. '],
+  [/\bint\.?\s/gi,'Int. '],
+  [/\bext\.?\s/gi,'Ext. '],
+  [/\bnum\.?\s|\bno\.\s(?=\d)/gi,'Núm. '],
+  [/\bc\.?p\.?\s*(?=\d)/gi,'CP '],
+  [/\bwhatsapp\b/gi,'WhatsApp'],
+  [/\bexcel\b/gi,'Excel'],
+  [/\bword\b/gi,'Word'],
+  [/\bwindows\b/gi,'Windows'],
+  [/\bgoogle\b/gi,'Google'],
+  [/\boutlook\b/gi,'Outlook'],
+  [/\bmexico\b/gi,'México'],
+  [/\bjalisco\b/gi,'Jalisco'],
+  [/\btlaquepaque\b/gi,'Tlaquepaque'],
+  [/\bguadalajara\b/gi,'Guadalajara']
+];
+
+function pulir(t){
+  if(!t || typeof t!=='string') return t;
+  let x=t;
+
+  /* espacios: colapsa repetidos y recorta extremos */
+  x=x.replace(/[ \t]+/g,' ').replace(/ *\n */g,'\n').trim();
+
+  /* PRIMERO las abreviaturas con punto: si no, la regla de
+     espaciado parte "S.A. de C.V." en pedazos */
+  CAMBIOS.forEach(([re,v])=>{ x=x.replace(re,v); });
+
+  /* puntuación: sin espacio antes, con espacio después */
+  x=x.replace(/\s+([,;:.!?])/g,'$1');
+  x=x.replace(/([,;:])(?=[^\s\d])/g,'$1 ');
+  x=x.replace(/\.(?=[A-Za-zÁÉÍÓÚÜÑ])/g,'. ');
+
+  /* repeticiones de signos */
+  x=x.replace(/\.{4,}/g,'…').replace(/\.{2,3}/g,'…');
+  x=x.replace(/,{2,}/g,',').replace(/;{2,}/g,';');
+
+  /* guiones y comillas tipográficas */
+  x=x.replace(/\s--\s/g,' — ').replace(/\s-\s/g,' — ');
+  x=x.replace(/"([^"]+)"/g,'“$1”');
+
+  /* mayúsculas ANTES de anteponer ¿ o ¡, para que la inicial
+     siga siendo la primera letra cuando se evalúa */
+  x=x.replace(/^([a-záéíóúüñ])/,(m,c)=>c.toUpperCase());
+  x=x.replace(/([.!?]\s+)([a-záéíóúüñ])/g,(m,a,b)=>a+b.toUpperCase());
+  x=x.replace(/(\n\s*)([a-záéíóúüñ])/g,(m,a,b)=>a+b.toUpperCase());
+
+  /* signos de apertura del español */
+  if(/\?\s*$/.test(x) && !/^\s*¿/.test(x)) x='¿'+x;
+  if(/!\s*$/.test(x) && !/^\s*¡/.test(x)) x='¡'+x;
+
+  /* siglas: en mayúscula sin importar cómo se escribieron */
+  SIGLAS.forEach(sg=>{
+    if(sg.indexOf('.')>=0 || sg.indexOf(' ')>=0) return;  /* ya tratadas arriba */
+    const re=new RegExp('(^|[^\\wÁÉÍÓÚÜÑáéíóúüñ])'+sg+
+      '(?![\\wÁÉÍÓÚÜÑáéíóúüñ])','gi');
+    x=x.replace(re,(m,p)=>p+sg);
+  });
+
+  return x;
+}
+
+/* Marca visual breve cuando un campo se ajustó */
+function avisaPulido(el){
+  el.style.transition='background .25s';
+  el.style.background='#E8F6EF';
+  setTimeout(()=>{ el.style.background=''; },700);
+}
+
+function campo(t,i,f,v){
+ const id=`${t}_${i}_${f.k}`; v=v||'';
+ const dd=`data-t="${t}" data-i="${i}" data-k="${f.k}" ${f.req?'data-req':''} ${f.bloq?'data-bloq':''}`;
+ let c;
+ if(f.t==='ta') c=`<textarea id="${id}" ${dd}>${esc(v)}</textarea>`;
+ else if(f.t==='sel') c=`<select id="${id}" ${dd}><option value="">Seleccione…</option>`+
+   f.o.map(o=>`<option${o===v?' selected':''}>${esc(o)}</option>`).join('')+`</select>`;
+ else if(f.t==='opt') c=`<div class="opts">`+f.o.map(o=>{
+   const cl = o==='Sí'?'si' : (o==='No'?'no' : (o.indexOf('No sé')===0?'ns':''));
+   return `<label><input type="radio" name="${id}" value="${esc(o)}" ${dd}
+     ${o===v?'checked':''}><span class="${cl}">${esc(o)}</span></label>`;}).join('')+`</div>`;
+ else c=`<input type="text" id="${id}" value="${esc(v)}" ${dd}>`;
+ const marca = f.bloq ? ' <span class="req bloq" title="Sin este dato no podemos redactar el Aviso">●</span>'
+             : (f.req ? ' <span class="req">●</span>' : '');
+ return `<div class="f c${f.c}"><label>${esc(f.l)}${marca}</label>
+   ${c}${f.hint?`<span class="hint">${esc(f.hint)}</span>`:''}</div>`;
+}
+
+function pintaRep(t){
+ const e=REP[t];
+ document.getElementById(e.cont).innerHTML = D[t].map((r,i)=>
+  `<div class="card"><div class="card-h">
+     <span class="ix">${String(i+1).padStart(2,'0')}</span>
+     <span class="nm">${esc(r[e.nm]||'Sin nombre')}</span>
+     <span class="tag">${esc(e.tag)}</span>${ico(e.ic)}
+     <button class="del" data-del="${t}" data-i="${i}" title="Eliminar">✕</button>
+   </div><div class="grid">${e.f.map(f=>campo(t,i,f,r[f.k])).join('')}</div></div>`).join('');
+}
+function pintaFicha(t){
+ const e=FICHA[t];
+ document.getElementById(e.cont).innerHTML = e.g.map(g=>
+  `<div class="blk"><div class="blk-h"><h3>${ico(g.ic)}${esc(g.t)}</h3><p>${esc(g.d)}</p></div>
+   <div class="grid">${g.f.map(f=>campo(t,0,f,D[t][f.k])).join('')}</div></div>`).join('');
+}
+
+function lee(){
+ document.querySelectorAll('[data-t]').forEach(el=>{
+  if(el.type==='radio'&&!el.checked) return;
+  const {t,i,k}=el.dataset;
+  if(Array.isArray(D[t])){ if(D[t][i]) D[t][i][k]=el.value; }
+  else if(D[t]) D[t][k]=el.value;
+ });
+ D.autor=document.getElementById('autor').value;
+ D.correo=document.getElementById('correo').value;
+}
+let st=null;
+function guarda(){
+ lee();
+ try{localStorage.setItem(K,JSON.stringify(D))}catch(e){}
+ const s=document.getElementById('save');
+ s.classList.add('on'); clearTimeout(st);
+ st=setTimeout(()=>s.classList.remove('on'),1700);
+}
+try{const raw=localStorage.getItem(K); if(raw) D=Object.assign(D,JSON.parse(raw));}catch(e){}
+if(!D.base||!D.base.length) D.base=PRE.map(p=>Object.assign({},p));
+if(!D.acc||!D.acc.length) D.acc=[{}];
+if(!D.ter||!D.ter.length) D.ter=[{}];
+['av','seg','cons','inc'].forEach(k=>{ if(!D[k]) D[k]={}; });
+
+['base','acc','ter'].forEach(pintaRep);
+['av','seg','cons','inc'].forEach(pintaFicha);
+document.getElementById('autor').value=D.autor||'';
+document.getElementById('correo').value=D.correo||'';
+
+document.addEventListener('input',e=>{
+ if(!e.target.matches('[data-t],#autor,#correo')) return;
+ e.target.classList.remove('miss'); guarda();
+ const el=e.target;
+ if(el.dataset.t && REP[el.dataset.t] && el.dataset.k===REP[el.dataset.t].nm){
+  const c=el.closest('.card');
+  if(c) c.querySelector('.nm').textContent=el.value||'Sin nombre';
+ }
+});
+document.addEventListener('change',e=>{ if(e.target.matches('[data-t]')) guarda(); });
+
+/* Pulido al salir del campo (texto libre únicamente) */
+document.addEventListener('focusout',e=>{
+ const el=e.target;
+ if(!el.matches('input[type="text"],input[type="email"],textarea')) return;
+ if(el.id==='correo'||el.dataset.k==='v_correo'||el.dataset.k==='v_web') return; /* no tocar direcciones */
+ const antes=el.value, despues=pulir(antes);
+ if(despues!==antes){ el.value=despues; avisaPulido(el); guarda(); }
+});
+document.addEventListener('click',e=>{
+ const a=e.target.closest('[data-add]');
+ if(a){ lee(); D[a.dataset.add].push({}); pintaRep(a.dataset.add); guarda(); return; }
+ const d=e.target.closest('[data-del]');
+ if(d){ const t=d.dataset.del;
+  if(D[t].length<=1) D[t]=[{}]; else { lee(); D[t].splice(+d.dataset.i,1); }
+  pintaRep(t); guarda(); return; }
+ const g=e.target.closest('[data-go]'); if(g){ paso(+g.dataset.go); return; }
+ const s=e.target.closest('.sbtn'); if(s) paso(+s.dataset.s);
+});
+
+function paso(n){
+ lee();
+ document.querySelectorAll('.step').forEach(x=>x.classList.toggle('on',+x.dataset.s===n));
+ document.querySelectorAll('.sbtn').forEach(b=>{
+  const i=+b.dataset.s;
+  b.classList.toggle('on',i===n);
+  b.classList.toggle('done',i<n);
+  b.querySelector('em').textContent = i<n ? '✓' : String(i+1);
+ });
+ if(n===8) resumen();
+ scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ══════════════════════════════════════════════════════════
+   VALIDACIÓN EN DOS NIVELES
+   · bloqueantes — sin ellos no se puede redactar el Aviso;
+     impiden la descarga.
+   · importantes — se señalan y se cuentan, pero dejan enviar.
+     Un hueco honesto vale más que un dato inventado.
+   ══════════════════════════════════════════════════════════ */
+function revisar(){
+ lee();
+ const falta={req:0, bloq:[]};
+ const PASO={av:1, base:2, acc:3, seg:4, cons:5, ter:6, inc:7};
+
+ Object.keys(REP).forEach(t=>{
+  REP[t].f.filter(f=>f.req).forEach(f=>{
+   D[t].forEach((r,i)=>{
+    if(r[f.k]) return;
+    falta.req++;
+    if(f.bloq) falta.bloq.push({t:t,i:i,k:f.k,l:f.l,paso:PASO[t]});
+   });
+  });
+ });
+ Object.keys(FICHA).forEach(t=>{
+  FICHA[t].g.forEach(g=>g.f.filter(f=>f.req).forEach(f=>{
+   if(D[t][f.k]) return;
+   falta.req++;
+   if(f.bloq) falta.bloq.push({t:t,i:0,k:f.k,l:f.l,paso:PASO[t]});
+  }));
+ });
+ if(!D.autor){ falta.req++; falta.bloq.push({t:null,i:0,k:'autor',l:'Quién está llenando el formulario',paso:0}); }
+ return falta;
+}
+function faltan(){ return revisar().req; }
+
+/* Lleva al primer bloqueante pendiente y lo resalta */
+function irAFaltante(f){
+ paso(f.paso);
+ setTimeout(()=>{
+  const el = f.t ? document.getElementById(`${f.t}_${f.i}_${f.k}`)
+                 : document.getElementById('autor');
+  const node = el || document.querySelector(`[name="${f.t}_${f.i}_${f.k}"]`);
+  if(!node) return;
+  const caja = node.closest('.f') || node.parentElement;
+  node.classList.add('miss');
+  if(caja) caja.scrollIntoView({behavior:'smooth',block:'center'});
+  setTimeout(()=>{ try{ node.focus(); }catch(e){} },420);
+ },260);
+}
+function resumen(){
+ const V=revisar(); const n=V.req;
+ document.getElementById('bloqAviso').style.display='none';
+ const sens=D.base.filter(b=>b.sens==='Sí').length;
+ const men=D.base.filter(b=>b.menores==='Sí').length;
+ const sinCon=D.ter.filter(t=>t.contrato==='No'||t.contrato==='No sé').length;
+ const fuera=D.ter.filter(t=>t.pais==='En el extranjero'||t.pais==='No sé dónde están los servidores').length;
+ const consOk = D.cons.c_escrito==='Sí';
+ const avOk = !!(D.av.v_correo && D.av.v_tel && D.av.v_web && D.av.v_resp);
+ const r=[
+  ['Quién llena',D.autor||'— sin especificar —',!D.autor?'bad':''],
+  ['Las cuatro decisiones del Aviso', avOk?'Completas':'Incompletas', avOk?'good':'bad'],
+  ['Denominación social capturada', D.av.v_razon||'— falta —', D.av.v_razon?'good':'bad'],
+  ['Finalidades del tratamiento', D.av.v_fin1?'Capturadas':'— faltan —', D.av.v_fin1?'good':'bad'],
+  ['Bases de datos registradas',D.base.length,''],
+  ['De ellas, con datos sensibles',sens,''],
+  ['De ellas, con datos de menores',men,''],
+  ['Accesos documentados',D.acc.length,''],
+  ['Terceros registrados',D.ter.length,''],
+  ['Terceros sin contrato o sin certeza',sinCon,sinCon>0?'bad':'good'],
+  ['Terceros fuera de México o sin ubicar',fuera,fuera>0?'bad':'good'],
+  ['Consentimiento escrito para datos de salud',
+   D.cons.c_escrito||'— sin responder —', consOk?'good':'bad'],
+  ['Procedimiento ARCO por escrito',
+   D.cons.r_proc||'— sin responder —', D.cons.r_proc==='Sí'?'good':'bad'],
+  ['Datos indispensables para el Aviso',
+   V.bloq.length? V.bloq.length+' pendientes' : 'Completos',
+   V.bloq.length? 'bad':'good'],
+  ['Otros campos sugeridos sin responder', n-V.bloq.length,
+   (n-V.bloq.length)>0?'':'good']
+ ];
+ document.getElementById('sum').innerHTML=r.map(x=>
+  `<div class="sum-row"><span class="k">${x[0]}</span><span class="v ${x[2]}">${esc(x[1])}</span></div>`).join('');
+}
+
+document.getElementById('dl').addEventListener('click',()=>{
+ lee();
+
+ /* Los bloqueantes sí detienen la descarga */
+ const v=revisar();
+ if(v.bloq.length){
+  const caja=document.getElementById('bloqAviso');
+  const f=v.bloq[0];
+  caja.style.display='block';
+  caja.querySelector('h4 span.txt').textContent =
+   v.bloq.length===1 ? 'Falta un dato para poder redactar el Aviso'
+                     : `Faltan ${v.bloq.length} datos para poder redactar el Aviso`;
+  caja.querySelector('p').innerHTML =
+   `Sin estos campos no es posible redactar el Aviso de Privacidad, que es la entrega del 9 de octubre. `+
+   `El primero que falta es <strong>${esc(f.l)}</strong>.`+
+   (v.bloq.length>1 ? `<br><br>Pendientes: ${v.bloq.map(x=>esc(x.l)).join(' · ')}` : '');
+  caja.scrollIntoView({behavior:'smooth',block:'center'});
+  irAFaltante(f);
+  return;
+ }
+
+ const p={proyecto:'COT-2026-DT-001',empresa:'DX TLAQUEPAQUE SA DE CV',
+  documento:'Levantamiento de protección de datos personales',
+  version:3, generado:new Date().toISOString(),
+  llenadoPor:D.autor, correo:D.correo,
+  avisoDePrivacidad:D.av,
+  basesDeDatos:D.base, accesos:D.acc, terceros:D.ter,
+  medidasSeguridad:D.seg, consentimientoYArco:D.cons, incidentesYConservacion:D.inc,
+  camposPendientes:faltan()};
+ const f=new Date(), z=x=>String(x).padStart(2,'0');
+ const b=new Blob([JSON.stringify(p,null,2)],{type:'application/json'});
+ const a=document.createElement('a');
+ a.href=URL.createObjectURL(b);
+ a.download=`Levantamiento_DX_${f.getFullYear()}-${z(f.getMonth()+1)}-${z(f.getDate())}.json`;
+ document.body.appendChild(a); a.click();
+ setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove()},400);
+ const btn=document.getElementById('dl'), tx=btn.textContent;
+ btn.textContent='✓ Descargado — ahora envíenlo a su asesor';
+ setTimeout(()=>{btn.textContent=tx},4200);
+});
+/* Revisión global de redacción sobre todos los datos guardados */
+document.getElementById('rev').addEventListener('click',()=>{
+ lee();
+ let n=0;
+ const limpia=(obj,saltar)=>{
+  Object.keys(obj).forEach(k=>{
+   if(saltar.indexOf(k)>=0) return;
+   const v=obj[k];
+   if(typeof v==='string'){
+    const p=pulir(v);
+    if(p!==v){ obj[k]=p; n++; }
+   }
+  });
+ };
+ const SALTAR=['v_correo','v_web','correo','contacto'];
+ ['base','acc','ter'].forEach(t=>D[t].forEach(r=>limpia(r,SALTAR)));
+ ['av','seg','cons','inc'].forEach(t=>limpia(D[t],SALTAR));
+ if(D.autor){ const p=pulir(D.autor); if(p!==D.autor){ D.autor=p; n++; } }
+
+ try{localStorage.setItem(K,JSON.stringify(D))}catch(e){}
+ ['base','acc','ter'].forEach(pintaRep);
+ ['av','seg','cons','inc'].forEach(pintaFicha);
+ document.getElementById('autor').value=D.autor||'';
+
+ const b=document.getElementById('boxRev');
+ b.className='box ok';
+ b.querySelector('h4').textContent = n>0
+  ? `Listo — se ajustaron ${n} ${n===1?'campo':'campos'}`
+  : 'Todo en orden — no hizo falta corregir nada';
+ b.querySelector('p').textContent = n>0
+  ? 'Se corrigieron espacios, puntuación, mayúsculas y siglas. El contenido no cambió. Pueden revisar los pasos anteriores si quieren verificar.'
+  : 'El texto ya estaba bien formado. Pueden descargar las respuestas.';
+ resumen();
+});
+
+document.getElementById('pr').addEventListener('click',()=>print());
+/* Resuelve los iconos declarados con data-ic en el HTML estático */
+document.querySelectorAll('[data-ic]').forEach(el=>{
+ el.innerHTML = ico(el.dataset.ic);
+});
+
+addEventListener('beforeunload',guarda);
+})();
+</script>
+</body>
+</html>
