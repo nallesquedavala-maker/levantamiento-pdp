@@ -8,6 +8,20 @@
  * las respuestas de una misma persona.
  */
 
+/* ▶ EJECUTA ESTA PRIMERO.
+   Crea las subcarpetas y muestra en el Registro de ejecución
+   qué carpeta se usará para cada apartado. */
+function probarCarpetas() {
+  var principal = carpetaPrincipal();
+  var lista = [{ apartado: 'Carpeta principal', carpeta: principal.getName(), url: principal.getUrl() }];
+  Object.keys(APARTADOS).forEach(function (clave) {
+    var c = carpetaDelApartado(clave);
+    lista.push({ apartado: APARTADOS[clave].carpeta, carpeta: c.getName(), url: c.getUrl() });
+  });
+  lista.forEach(function (x) { Logger.log(x.apartado + '  →  ' + x.carpeta + '  (' + x.url + ')'); });
+  return lista;
+}
+
 // Carpeta principal en Drive.
 // Si CARPETA_ID está vacío, el script crea (o reutiliza) en tu Drive
 // una carpeta llamada CARPETA_NOMBRE. Para usar otra carpeta, pega su ID aquí.
@@ -149,18 +163,15 @@ function respuesta(obj) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
-/* Ejecútala una vez desde el editor para autorizar permisos y
-   ver en el registro qué carpeta se usará para cada apartado. */
-function probarCarpetas() {
-  var principal = carpetaPrincipal();
-  Logger.log('Carpeta principal: ' + principal.getName() + '  (' + principal.getUrl() + ')');
-  Object.keys(APARTADOS).forEach(function (clave) {
-    var c = carpetaDelApartado(clave);
-    Logger.log(APARTADOS[clave].carpeta + '  →  ' + c.getName() + '  (' + c.getUrl() + ')');
-  });
-}
-
-/* Para comprobar en el navegador que la URL funciona. */
-function doGet() {
+/* Abre la URL /exec en el navegador para ver si el script está activo.
+   Agrega ?probar=1 al final para crear y ver las carpetas. */
+function doGet(e) {
+  if (e && e.parameter && e.parameter.probar) {
+    try {
+      return respuesta({ ok: true, carpetas: probarCarpetas() });
+    } catch (err) {
+      return respuesta({ ok: false, error: String(err) });
+    }
+  }
   return respuesta({ ok: true, mensaje: 'El script del Levantamiento PDP está activo.' });
 }
