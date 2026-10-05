@@ -1,6 +1,8 @@
 # Conectar el formulario con Google Sheets
 
-1. Crea un Google Sheet nuevo, por ejemplo "Levantamiento PDP – Respuestas".
+1. Abre la carpeta de Drive donde se guardan los documentos y, dentro de ella,
+   crea un Google Sheet nuevo (**Nuevo → Hojas de cálculo de Google**),
+   por ejemplo "Levantamiento PDP – Respuestas".
 2. En el Sheet abre **Extensiones → Apps Script**.
 3. Borra lo que aparece y pega todo el contenido de `Codigo.gs`. Guarda.
 4. Haz clic en **Implementar → Nueva implementación**.
@@ -27,6 +29,10 @@ Editar → Versión: Nueva versión**. Así la URL sigue siendo la misma.
 | Bases de datos | Una fila por cada base registrada |
 | Accesos | Una fila por cada acceso |
 | Terceros | Una fila por cada tercero |
-| JSON | El envío completo como respaldo |
+| JSON | El envío completo como respaldo y el enlace a su archivo en Drive |
+
+Cada envío también se guarda como archivo `.json` en la carpeta de Drive
+definida en `CARPETA_ID`, al inicio de `Codigo.gs`. Para usar otra carpeta,
+cambia ese valor por el ID que aparece en su enlace después de `/folders/`.
 
 Todas tienen la columna **ID envío** para relacionar las filas de un mismo envío.

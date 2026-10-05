@@ -9,7 +9,12 @@
  *   JSON            → el envío completo, como respaldo
  *
  * Todas las hojas comparten la columna "ID envío" para relacionarlas.
+ *
+ * Además guarda cada envío como archivo .json en la carpeta de Drive indicada.
  */
+
+// Carpeta de Drive donde se guardan los archivos de cada envío.
+var CARPETA_ID = '1Z0isaHtyFkbfMhgyDhITb-NJF8Umh3C_';
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -23,8 +28,10 @@ function doPost(e) {
       if (tabla.rows.length) agregarFilas(libro, nombre, tabla.headers, tabla.rows);
     });
 
-    agregarFilas(libro, 'JSON', ['ID envío', 'Fecha', 'Contenido'],
-      [[datos.id, datos.fecha, String(datos.json).slice(0, 49000)]]);
+    var archivo = guardarEnDrive(datos);
+
+    agregarFilas(libro, 'JSON', ['ID envío', 'Fecha', 'Archivo en Drive', 'Contenido'],
+      [[datos.id, datos.fecha, archivo, String(datos.json).slice(0, 49000)]]);
 
     return respuesta({ ok: true, id: datos.id });
   } catch (err) {
@@ -56,6 +63,20 @@ function agregarFilas(libro, nombre, headers, rows) {
     });
   });
   hoja.getRange(hoja.getLastRow() + 1, 1, filas.length, actuales.length).setValues(filas);
+}
+
+/* Crea un archivo .json con el envío completo dentro de la carpeta de Drive.
+   Si algo falla, el envío se guarda igual en el Sheet. */
+function guardarEnDrive(datos) {
+  try {
+    var carpeta = DriveApp.getFolderById(CARPETA_ID);
+    var hoy = Utilities.formatDate(new Date(), 'America/Mexico_City', 'yyyy-MM-dd');
+    var nombre = 'Levantamiento_DX_' + hoy + '_' + datos.id + '.json';
+    var contenido = JSON.stringify(JSON.parse(datos.json), null, 2);
+    return carpeta.createFile(nombre, contenido, 'application/json').getUrl();
+  } catch (err) {
+    return 'No se pudo guardar en Drive: ' + err;
+  }
 }
 
 function respuesta(obj) {
